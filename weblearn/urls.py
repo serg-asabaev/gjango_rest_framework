@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 from weblearn.apps import WeblearnConfig
 from config.settings import MEDIA_ROOT
 from weblearn.views import LearnCourseViewSet, LessonCreateAPIView, LessonListAPIView, LessonRetrieveAPIView, \
-    LessonUpdateAPIView, LessonDestroyAPIView
+    LessonUpdateAPIView, LessonDestroyAPIView#, LearnCourseLessonListAPIView
 
 app_name = WeblearnConfig.name
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('lesson/<int:pk>', LessonRetrieveAPIView.as_view(), name='lesson-retrieve'),
     path('lesson/update/<int:pk>', LessonUpdateAPIView.as_view(), name='lesson-update'),
     path('lesson/delete/<int:pk>', LessonDestroyAPIView.as_view(), name='lesson-delete'),
+    # path('learn_course/lesson/list', LearnCourseLessonListAPIView.as_view(), name='course-lesson-list'),
 ] + router.urls
 
 if settings.DEBUG:

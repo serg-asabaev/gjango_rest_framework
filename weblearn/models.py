@@ -20,6 +20,8 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to='lesson/images', blank=True, null=True, verbose_name='Изображение')
     video_link = models.URLField(max_length=200)
 
+    learn_course = models.ForeignKey(LearnCourse, blank=True, null=True, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс')
+
     def __str__(self):
         return f'{self.title}'
 
