@@ -7,7 +7,7 @@ from weblearn.models import LearnCourse
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         user = User.objects.get(id=1)
-        payment = Payment.objects.create(user=user, payment_sum=100000)
-        payment.payment_type = payment.PaymentType.CASH
-        payment.paid_course = LearnCourse.objects.get(id=1)
+        payment = Payment.objects.create(user=user, payment_sum=150000)
+        payment.payment_type = payment.PaymentType.ACCOUNT_TRANSFER
+        payment.paid_course = LearnCourse.objects.get(id=2)
         payment.save()

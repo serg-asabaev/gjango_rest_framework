@@ -25,6 +25,7 @@ class LearnCourseSerializer(serializers.ModelSerializer):
             })
         return lessons_list
 
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
