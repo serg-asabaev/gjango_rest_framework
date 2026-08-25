@@ -1,9 +1,9 @@
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
 from django.db import models
 
 from weblearn.models import LearnCourse
 
-class User(AbstractBaseUser):
+class User(AbstractUser):
     username = None
 
     email = models.EmailField(unique=True, verbose_name='Email')
@@ -13,7 +13,9 @@ class User(AbstractBaseUser):
     avatar = models.ImageField(upload_to="users/avatars/", blank=True, null=True, verbose_name="Аватар", help_text="Загрузите свой аватар")
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
+
+    is_staff = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -21,6 +23,8 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+    objects = UserManager()
 
 class Payment(models.Model):
     user =  models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='payments', verbose_name='Пользователь')
