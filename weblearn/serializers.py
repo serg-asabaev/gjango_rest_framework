@@ -1,13 +1,26 @@
 from rest_framework import serializers
 
+from users.models import Payment
 from weblearn.models import LearnCourse, Lesson
-
-class LearnCourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LearnCourse
-        fields = ('title', 'description')
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ('title', 'description')
+        fields = ('id', 'title', 'description', 'learn_course')
+
+class LearnCourseSerializer(serializers.ModelSerializer):
+    lesson_count = serializers.SerializerMethodField()
+    lesson_list = LessonSerializer(source="lessons", many=True)
+
+    class Meta:
+        model = LearnCourse
+        fields = ('id', 'title', 'description', 'lesson_count', 'lesson_list')
+
+    def get_lesson_count(self, instance):
+        lessons = instance.lessons.all()
+        return lessons.count()
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = ('user', 'payment_time', 'paid_course', 'payment_sum', 'payment_type')

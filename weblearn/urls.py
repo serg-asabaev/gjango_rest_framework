@@ -8,7 +8,7 @@ from rest_framework.routers import DefaultRouter
 from weblearn.apps import WeblearnConfig
 from config.settings import MEDIA_ROOT
 from weblearn.views import LearnCourseViewSet, LessonCreateAPIView, LessonListAPIView, LessonRetrieveAPIView, \
-    LessonUpdateAPIView, LessonDestroyAPIView
+    LessonUpdateAPIView, LessonDestroyAPIView#, LearnCourseLessonListAPIView
 
 app_name = WeblearnConfig.name
 

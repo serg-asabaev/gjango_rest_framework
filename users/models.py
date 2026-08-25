@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 
+from weblearn.models import LearnCourse
 
 class User(AbstractBaseUser):
     username = None
@@ -20,3 +21,21 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+class Payment(models.Model):
+    user =  models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, related_name='payments', verbose_name='Пользователь')
+    payment_time = models.DateTimeField(auto_now_add=True, verbose_name='Дата оплаты')
+
+    paid_course = models.ForeignKey(LearnCourse, blank=True, null=True, on_delete=models.SET_NULL, related_name='payments', verbose_name='Оплаченный курс')
+
+    payment_sum = models.FloatField(verbose_name='Сумма оплаты')
+
+    class PaymentType(models.TextChoices):
+        CASH = 'cash', 'Наличные'
+        ACCOUNT_TRANSFER = 'account_transfer', 'Перевод на счет'
+
+    payment_type = models.CharField(
+        max_length=16,
+        choices=PaymentType.choices,
+        default=PaymentType.CASH,
+    )

@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics
 
-from weblearn.serializers import LearnCourseSerializer, LessonSerializer
+from weblearn.serializers import LearnCourseSerializer, LessonSerializer#, LearnCourseLessonSerializer
 from weblearn.models import LearnCourse, Lesson
 
 
@@ -25,3 +25,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
+
+# class LearnCourseLessonListAPIView(generics.ListAPIView):
+#     queryset = Lesson.objects.filter(learn_course__isnull=False)
+#     serializer_class = LearnCourseLessonSerializer
