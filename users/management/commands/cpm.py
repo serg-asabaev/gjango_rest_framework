@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from users.models import User, Payment
+from users.models import Payment, User
 from weblearn.models import LearnCourse
 
 
