@@ -9,7 +9,7 @@ from config.settings import MEDIA_ROOT
 from weblearn.apps import WeblearnConfig
 from weblearn.views import (  # , LearnCourseLessonListAPIView
     LearnCourseViewSet, LessonCreateAPIView, LessonDestroyAPIView,
-    LessonListAPIView, LessonRetrieveAPIView, LessonUpdateAPIView)
+    LessonListAPIView, LessonRetrieveAPIView, LessonUpdateAPIView, SubscriptionAPIView)
 
 app_name = WeblearnConfig.name
 
@@ -22,9 +22,9 @@ urlpatterns = [
     path("lesson/list", LessonListAPIView.as_view(), name="lesson-list"),
     path("lesson/<int:pk>", LessonRetrieveAPIView.as_view(), name="lesson-retrieve"),
     path("lesson/update/<int:pk>", LessonUpdateAPIView.as_view(), name="lesson-update"),
-    path(
-        "lesson/delete/<int:pk>", LessonDestroyAPIView.as_view(), name="lesson-delete"
-    ),
+    path("lesson/delete/<int:pk>", LessonDestroyAPIView.as_view(), name="lesson-delete"),
+
+    path("subscription/create", SubscriptionAPIView.as_view(), name="subscription-create")
 ] + router.urls
 
 if settings.DEBUG:
