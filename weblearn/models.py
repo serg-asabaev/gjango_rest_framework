@@ -39,7 +39,7 @@ class Lesson(models.Model):
     preview = models.ImageField(
         upload_to="lesson/images", blank=True, null=True, verbose_name="Изображение"
     )
-    video_link = models.URLField(max_length=200)
+    video_link = models.URLField(max_length=200, )
 
     learn_course = models.ForeignKey(
         LearnCourse,
@@ -67,3 +67,16 @@ class Lesson(models.Model):
         ordering = [
             "title",
         ]
+
+class Subscription(models.Model):
+    """ Подписка пользователя на обновления курса """
+
+    user = models.ForeignKey(AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Подписант",
+        help_text="Укажите подписанта",)
+
+    learn_course = models.ForeignKey(LearnCourse,
+         on_delete=models.CASCADE,
+         verbose_name="Курс",
+         help_text="Выберите курс", )
