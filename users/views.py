@@ -35,13 +35,10 @@ class PaymentCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         payment = serializer.save(user=self.request.user)
         amount_in_dollars = convert_rub_to_dollars(payment.payment_sum)
-        # payment_course = payment.paid_course
         product = create_stripe_product(amount_in_dollars)
         price = create_stripe_price(amount_in_dollars, product).to_dict()
 
         session_id, payment_link = create_stripe_session(price)
-
-        print(len(payment_link))
 
         payment.session_id = session_id
         payment.link = payment_link
