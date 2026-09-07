@@ -1,12 +1,12 @@
-from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, viewsets
+from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import Payment, User
 from users.serializer import UserSerializer
 from weblearn.serializers import PaymentSerializer
+from users.services import convert_rub_to_dollars, create_stripe_price, create_stripe_session, create_stripe_product
 
 
 class PaymentListAPIView(generics.ListAPIView):
@@ -27,3 +27,22 @@ class UserCreateAPIView(generics.CreateAPIView):
         user = serializer.save(is_active=True)
         user.set_password(user.password)
         user.save()
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        amount_in_dollars = convert_rub_to_dollars(payment.payment_sum)
+        # payment_course = payment.paid_course
+        product = create_stripe_product(amount_in_dollars)
+        price = create_stripe_price(amount_in_dollars, product).to_dict()
+
+        session_id, payment_link = create_stripe_session(price)
+
+        print(len(payment_link))
+
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()

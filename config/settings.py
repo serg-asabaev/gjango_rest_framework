@@ -150,9 +150,11 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    '<http://localhost:8080>',
+    "https://example.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8080",
 ]
+
+STRIPE_API_KEY = "sk_test_51UBfq9FN1CDPH7RSuLlgExJVcAvXDnFjEO8dzls0fs886DXGUJzIcdmP23wTQG6NuBhirRBs9JxlJRjhGTEo0Zu800n1K20OIh"
