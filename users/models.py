@@ -77,3 +77,26 @@ class Payment(models.Model):
         choices=PaymentType.choices,
         default=PaymentType.CASH,
     )
+
+    session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="Id сессии",
+        help_text="Введите id сессии",
+    )
+
+    link = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name="Ссылка на оплату",
+        help_text="Введите ссылку на оплату",
+    )
+
+    class Meta:
+        verbose_name = "Оплата"
+        verbose_name_plural = "Оплаты"
+
+    def __str__(self):
+        return self.payment_sum
