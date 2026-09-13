@@ -2,11 +2,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from users.models import Payment, User
-from users.serializer import UserSerializer
+from users.serializer import UserSerializer, CustomTokenObtainPairSerializer
 from weblearn.serializers import PaymentSerializer
 from users.services import convert_rub_to_dollars, create_stripe_price, create_stripe_session, create_stripe_product
+
 
 
 class PaymentListAPIView(generics.ListAPIView):
@@ -43,3 +45,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         payment.session_id = session_id
         payment.link = payment_link
         payment.save()
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer

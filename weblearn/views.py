@@ -3,13 +3,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
-
+from django.db import transaction
 
 from weblearn.models import LearnCourse, Lesson, Subscription
 from weblearn.permissions import IsOwner, IsManager
 from weblearn.serializers import (  # , LearnCourseLessonSerializer
     LearnCourseSerializer, LessonSerializer)
 from weblearn.paginators import LearnCoursePagination, LessonPagination
+from weblearn.tasks import send_course_update_email
 
 
 class LearnCourseViewSet(viewsets.ModelViewSet):
@@ -26,7 +27,7 @@ class LearnCourseViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == "create":
-            self.permission_classes = [~IsManager, ]
+            self.permission_classes = [IsAuthenticated] #[~IsManager, ]
         elif self.action in ["update", "retrieve"]:
             self.permission_classes = [IsManager | IsOwner, ]
         elif self.action in ["destroy"]:
@@ -38,6 +39,12 @@ class LearnCourseViewSet(viewsets.ModelViewSet):
         paginated_queryset = self.paginate_queryset(queryset)
         serializer = LearnCourseSerializer(paginated_queryset, many=True)
         return self.get_paginated_response(serializer.data)
+
+    def perform_update(self, serializer):
+        learn_course = serializer.save()
+        transaction.on_commit(
+            lambda: send_course_update_email.delay(learn_course.id)
+        )
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
