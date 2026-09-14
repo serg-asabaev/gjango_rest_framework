@@ -5,10 +5,9 @@ description = ""
 authors = [
     {name = "Your Name",email = "you@example.com"}
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
-    "python (>=3.14,<4.0)",
-    "django (>=6.1,<7.0)",
+    "django (>=6.0,<7.0)",
     "djangorestframework (>=3.18.0,<4.0.0)",
     "psycopg (>=3.3.4,<4.0.0)",
     "pillow (>=12.3.0,<13.0.0)",
@@ -21,9 +20,15 @@ dependencies = [
     "coverage (>=7.16.0,<8.0.0)",
     "drf-yasg (>=1.21.15,<2.0.0)",
     "django-cors-headers (>=4.9.0,<5.0.0)",
-    "stripe (>=15.6.1,<16.0.0)"
+    "stripe (>=15.6.1,<16.0.0)",
+    "redis (>=8.1.0,<9.0.0)",
+    "django-celery-beat (>=2.9.0,<3.0.0)",
+    "python-dotenv (>=1.2.3,<2.0.0)"
 ]
 
+[tool.poetry.dependencies]
+python = "^3.14"
+celery = {version = "^5.3.0", python = ">=3.10,<4.0"}
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

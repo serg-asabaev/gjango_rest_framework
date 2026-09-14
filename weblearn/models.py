@@ -80,3 +80,6 @@ class Subscription(models.Model):
          on_delete=models.CASCADE,
          verbose_name="Курс",
          help_text="Выберите курс", )
+
+    def __str__(self):
+        return f"{self.user.email} : {self.learn_course.title}"
