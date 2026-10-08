@@ -14,7 +14,7 @@ SECRET_KEY = "django-insecure-2e)k^t7#&&2y^gmk4!@m9rtryb%&@8(6b3-yuwwbtpl5!4pm%c
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '81.26.178.240']
 
 
 # Application definition
@@ -168,6 +168,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8080",
+    "http://81.26.178.240:8080",
 ]
 
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
