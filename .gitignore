@@ -219,3 +219,5 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 .idea/
+ssh_key.txt
+ssh_key.txt.pub
